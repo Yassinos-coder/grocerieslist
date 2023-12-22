@@ -24,7 +24,15 @@
     "react-redux": "^9.0.4"
   },
   "devDependencies": {
-    "@babel/core": "^7.20.0"
+    "@babel/core": "^7.20.0",
+    "eslint": "^8.56.0",
+    "eslint-plugin-react-native-globals": "^0.1.2"
+  },
+  "plugins": [
+    "react-native-globals"
+  ],
+  "env": {
+    "react-native-globals/all": true
   },
   "private": true
 }
