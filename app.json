@@ -25,6 +25,12 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "e3e8e35d-8140-4d63-9c84-8a575b9d3bc9"
+      }
+    },
+    "owner": "yassinos"
   }
 }
