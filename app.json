@@ -11,6 +11,7 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
+
     "assetBundlePatterns": [
       "**/*"
     ],
@@ -31,6 +32,9 @@
         "projectId": "e3e8e35d-8140-4d63-9c84-8a575b9d3bc9"
       }
     },
+    "fonts": [
+      "./assets/fonts/Inter-Black.ttf"
+    ],
     "owner": "yassinos"
   }
 }

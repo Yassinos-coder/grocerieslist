@@ -1,23 +1,57 @@
-import { StatusBar } from 'expo-status-bar';
-import {NavigationContainer} from '@react-navigation/native'
-import {createDrawerNavigator} from '@react-navigation/drawer'
+import React from "react";
+import { NavigationContainer } from "@react-navigation/native";
+import { createDrawerNavigator } from "@react-navigation/drawer";
 
+import HomeScreen from "./Screens/HomeScreen";
+import { Feather } from "@expo/vector-icons";
 
-/* Components Import */
-import HomeScreen from './Screens/HomeScreen';
-
-/* Navigation Setup */
-const Drawer = createDrawerNavigator()
+const Drawer = createDrawerNavigator();
 
 export default function App() {
   return (
     <NavigationContainer>
-      <StatusBar style="auto" />
-      <Drawer.Navigator initialRouteName='Home'>
-        <Drawer.Screen name='Home' component={HomeScreen} options={{headerShown:false}}/>
-        <Drawer.Screen name='Create List' component={HomeScreen} />
-        <Drawer.Screen name='Grocery List' component={HomeScreen} />
-        <Drawer.Screen name='History List' component={HomeScreen} />
+      <Drawer.Navigator initialRouteName="Home">
+        <Drawer.Screen
+          name={"Home"}
+          component={HomeScreen}
+          options={{
+            drawerLabel: "Home",
+            drawerIcon: ({ focused, color, size }) => (
+              <Feather name="home" size={size} color={color} />
+            ),
+            headerShown: false,
+          }}
+        />
+        <Drawer.Screen
+          name="Create List"
+          component={HomeScreen}
+          options={{
+            drawerLabel: "Create List",
+            drawerIcon: ({ focused, color, size }) => (
+              <Feather name="plus" size={size} color={color} />
+            ),
+          }}
+        />
+        <Drawer.Screen
+          name="Grocery List"
+          component={HomeScreen}
+          options={{
+            drawerLabel: "Grocery List",
+            drawerIcon: ({ focused, color, size }) => (
+              <Feather name="list" size={size} color={color} />
+            ),
+          }}
+        />
+        <Drawer.Screen
+          name="History List"
+          component={HomeScreen}
+          options={{
+            drawerLabel: "History List",
+            drawerIcon: ({ focused, color, size }) => (
+              <Feather name="clock" size={size} color={color} />
+            ),
+          }}
+        />
       </Drawer.Navigator>
     </NavigationContainer>
   );
