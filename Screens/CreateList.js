@@ -1,10 +1,24 @@
 import React, { useState } from "react";
 import { View, StyleSheet, Text, TextInput, Pressable } from "react-native";
+import ItemObject from "../Helpers/ItemObject";
+import { useNavigation } from "@react-navigation/native";
+import { useDispatch } from "react-redux";
+import { AddItem } from "../redux/groceriesReducer";
 
 const CreateList = () => {
-  const [product, setProduct] = useState("");
-  const [qty, setQty] = useState("");
+  const [newItem, setNewItem] = useState(new ItemObject());
   const [qtyType, setQtyType] = useState("KG"); // it defines if the qty or weight is in kilograms or grams.
+  const navigation = useNavigation();
+  const dispatch = useDispatch();
+
+  const handleProductNameSubmit = () => {
+    qtyInputRef.focus();
+  };
+
+  const addItemToList = () => {
+    dispatch(AddItem({ newItem }));
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.ScreenTitle}>
@@ -15,19 +29,29 @@ const CreateList = () => {
           <TextInput
             style={[styles.textInputs, { width: 250 }]}
             placeholder="Name of product"
-            value={product}
-            onChangeText={setProduct}
+            value={newItem.product}
+            onChangeText={(text) => setNewItem({ ...newItem, product: text })}
+            returnKeyType="next"
+            onSubmitEditing={handleProductNameSubmit}
           />
           <TextInput
+            ref={(input) => (qtyInputRef = input)}
             style={styles.textInputs2}
             placeholder={`Qty in ${qtyType}`}
-            value={qty}
-            onChangeText={setQty}
+            value={newItem.qty}
+            onChangeText={(text) => setNewItem({ ...newItem, qty: text })}
             keyboardType="number-pad"
+            returnKeyType="done"
           />
         </View>
         <View style={styles.PressablesView}>
-          <Pressable onPress={() => setQtyType("KG")}>
+          <Pressable
+            onPress={() => setQtyType("KG")}
+            style={({ pressed }) => [
+              styles.pressable,
+              pressed && { opacity: 0.5 },
+            ]}
+          >
             <View style={styles.kilograms}>
               <Text
                 style={[
@@ -42,7 +66,13 @@ const CreateList = () => {
               </Text>
             </View>
           </Pressable>
-          <Pressable onPress={() => setQtyType("G")}>
+          <Pressable
+            onPress={() => setQtyType("G")}
+            style={({ pressed }) => [
+              styles.pressable,
+              pressed && { opacity: 0.5 },
+            ]}
+          >
             <View style={styles.grams}>
               <Text
                 style={[
@@ -59,7 +89,13 @@ const CreateList = () => {
           </Pressable>
         </View>
         <View style={styles.btnActions}>
-          <Pressable>
+          <Pressable
+            onPress={addItemToList}
+            style={({ pressed }) => [
+              styles.pressable,
+              pressed && { opacity: 0.5 },
+            ]}
+          >
             <View style={styles.btn1}>
               <Text style={{ textAlign: "center", fontSize: 17 }}>
                 Add Item to list
@@ -146,7 +182,7 @@ const styles = StyleSheet.create({
   btnActions: {
     flexDirection: "row",
     marginLeft: 100,
-    marginTop: 20
+    marginTop: 20,
   },
   btn1: {
     backgroundColor: "orange",

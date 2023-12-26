@@ -15,3 +15,5 @@ const GroceriesHandler = createSlice({
 
 
 export default GroceriesHandler.reducer
+
+export const {AddItem} = GroceriesHandler.actions
