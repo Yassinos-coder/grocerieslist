@@ -1,19 +1,20 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-
 const GroceriesHandler = createSlice({
     name: 'GroceriesHandler',
-    initialState:{
-        list: []
+    initialState: {
+        shoppingList: []
     },
-    reducers:{
+    reducers: {
         AddItem: (state, action) => {
-            state.list = [...state.list, action.payload]
+            state.shoppingList = [...state.shoppingList, action.payload];
+        },
+        ClearShoppingList :(state, action) => {
+            state.shoppingList = []
         }
     }
-})
+});
 
+export default GroceriesHandler.reducer;
 
-export default GroceriesHandler.reducer
-
-export const {AddItem} = GroceriesHandler.actions
+export const { AddItem, ClearShoppingList } = GroceriesHandler.actions;

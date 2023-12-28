@@ -1,110 +1,168 @@
 import React, { useState } from "react";
-import { View, StyleSheet, Text, TextInput, Pressable } from "react-native";
-import ItemObject from "../Helpers/ItemObject";
+import {
+  View,
+  StyleSheet,
+  Text,
+  TextInput,
+  Pressable,
+  Alert,
+  KeyboardAvoidingView,
+  Platform,
+} from "react-native";
+import ItemObject from "../Modals/ItemObject";
 import { useNavigation } from "@react-navigation/native";
-import { useDispatch } from "react-redux";
-import { AddItem } from "../redux/groceriesReducer";
+import { useDispatch, useSelector } from "react-redux";
+import { AddItem, ClearShoppingList } from "../redux/groceriesReducer";
 
 const CreateList = () => {
   const [newItem, setNewItem] = useState(new ItemObject());
   const [qtyType, setQtyType] = useState("KG"); // it defines if the qty or weight is in kilograms or grams.
+
   const navigation = useNavigation();
   const dispatch = useDispatch();
-
-  const handleProductNameSubmit = () => {
-    qtyInputRef.focus();
-  };
+  const shoppingList = useSelector(
+    (state) => state.GroceriesHandler.shoppingList
+  );
 
   const addItemToList = () => {
-    dispatch(AddItem({ newItem }));
+    if (newItem.product === "" || newItem.qty === "") {
+      Alert.alert("Please fill in the inputs.");
+    } else if (newItem.product === "" && newItem.qty === "") {
+      Alert.alert("Please fill in the inputs.");
+    } else {
+      dispatch(AddItem(newItem));
+    }
   };
 
   return (
-    <View style={styles.container}>
-      <View style={styles.ScreenTitle}>
-        <Text style={styles.textInScreenTitle}>Fill in the inputs below.</Text>
-      </View>
-      <View style={styles.ListCreation}>
-        <View style={styles.TextInputsView}>
-          <TextInput
-            style={[styles.textInputs, { width: 250 }]}
-            placeholder="Name of product"
-            value={newItem.product}
-            onChangeText={(text) => setNewItem({ ...newItem, product: text })}
-            returnKeyType="next"
-            onSubmitEditing={handleProductNameSubmit}
-          />
-          <TextInput
-            ref={(input) => (qtyInputRef = input)}
-            style={styles.textInputs2}
-            placeholder={`Qty in ${qtyType}`}
-            value={newItem.qty}
-            onChangeText={(text) => setNewItem({ ...newItem, qty: text })}
-            keyboardType="number-pad"
-            returnKeyType="done"
-          />
+    <KeyboardAvoidingView  style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+      <View style={styles.container}>
+        <View style={styles.ScreenTitle}>
+          <Text style={styles.textInScreenTitle}>
+            Fill in the inputs below.
+          </Text>
         </View>
-        <View style={styles.PressablesView}>
-          <Pressable
-            onPress={() => setQtyType("KG")}
-            style={({ pressed }) => [
-              styles.pressable,
-              pressed && { opacity: 0.5 },
-            ]}
-          >
-            <View style={styles.kilograms}>
-              <Text
+        <View style={styles.ListCreation}>
+          <View style={styles.TextInputsView}>
+            <TextInput
+              style={[styles.textInputs, { width: 250 }]}
+              placeholder="Name of product"
+              value={newItem.product}
+              returnKeyType="next"
+              onChangeText={(text) => setNewItem({ ...newItem, product: text })}
+            />
+            <TextInput
+              style={styles.textInputs2}
+              placeholder={`Qty in ${qtyType}`}
+              value={newItem.qty}
+              keyboardType="number-pad"
+              returnKeyType="done"
+              onChangeText={(text) =>
+                setNewItem({ ...newItem, qty: text, qtyType: qtyType })
+              }
+            />
+          </View>
+          <View style={styles.PressablesView}>
+            <Pressable
+              onPress={() => setQtyType("KG")}
+              style={({ pressed }) => [
+                styles.pressable,
+                pressed && { opacity: 0.5 },
+              ]}
+            >
+              <View style={styles.kilograms}>
+                <Text
+                  style={[
+                    styles.pressableTexts,
+                    qtyType === "KG"
+                      ? { backgroundColor: "orange", borderRadius: 5 }
+                      : {},
+                    { textAlign: "center" },
+                  ]}
+                >
+                  KG
+                </Text>
+              </View>
+            </Pressable>
+            <Pressable
+              onPress={() => setQtyType("G")}
+              style={({ pressed }) => [
+                styles.pressable,
+                pressed && { opacity: 0.5 },
+              ]}
+            >
+              <View style={styles.grams}>
+                <Text
+                  style={[
+                    styles.pressableTexts,
+                    qtyType === "G"
+                      ? { backgroundColor: "orange", borderRadius: 5 }
+                      : {},
+                    { textAlign: "center" },
+                  ]}
+                >
+                  G
+                </Text>
+              </View>
+            </Pressable>
+          </View>
+          <View style={styles.btnActions}>
+            <Pressable
+              onPress={addItemToList}
+              style={({ pressed }) => [
+                styles.pressable,
+                pressed && { opacity: 0.5 },
+              ]}
+            >
+              <View style={styles.btn1}>
+                <Text style={{ textAlign: "center", fontSize: 17 }}>
+                  Add Item to list
+                </Text>
+              </View>
+            </Pressable>
+            <Pressable
+              onPress={() => {
+                setNewItem(new ItemObject());
+                dispatch(ClearShoppingList());
+              }}
+              style={({ pressed }) => [
+                styles.pressable,
+                pressed && { opacity: 0.5 },
+              ]}
+            >
+              <View
                 style={[
-                  styles.pressableTexts,
-                  qtyType === "KG"
-                    ? { backgroundColor: "orange", borderRadius: 5 }
-                    : {},
-                  { textAlign: "center" },
+                  styles.btn1,
+                  { backgroundColor: "#ff6666", marginLeft: 20 },
                 ]}
               >
-                KG
-              </Text>
-            </View>
-          </Pressable>
-          <Pressable
-            onPress={() => setQtyType("G")}
-            style={({ pressed }) => [
-              styles.pressable,
-              pressed && { opacity: 0.5 },
-            ]}
-          >
-            <View style={styles.grams}>
-              <Text
-                style={[
-                  styles.pressableTexts,
-                  qtyType === "G"
-                    ? { backgroundColor: "orange", borderRadius: 5 }
-                    : {},
-                  { textAlign: "center" },
-                ]}
-              >
-                G
-              </Text>
-            </View>
-          </Pressable>
+                <Text style={{ textAlign: "center", fontSize: 17 }}>
+                  Restart List
+                </Text>
+              </View>
+            </Pressable>
+          </View>
         </View>
-        <View style={styles.btnActions}>
-          <Pressable
-            onPress={addItemToList}
-            style={({ pressed }) => [
-              styles.pressable,
-              pressed && { opacity: 0.5 },
-            ]}
-          >
-            <View style={styles.btn1}>
-              <Text style={{ textAlign: "center", fontSize: 17 }}>
-                Add Item to list
+        <View style={styles.listDisplay}>
+          <Text style={{ color: "grey", textAlign: "center" }}>
+            List Display
+          </Text>
+          {shoppingList.map((item, index) => (
+            <View key={index} style={styles.listDisplayModel}>
+              <Text style={styles.textInListStyling}>● {index + 1} </Text>
+              <Text style={styles.textInListStyling}>
+                <Text style={{ fontWeight: "600" }}>Product :</Text>
+                {item.product}
+              </Text>
+              <Text style={styles.textInListStyling}>
+                <Text style={{ fontWeight: "600" }}>Quantity :</Text> {item.qty}
+                {item.qtyType}
               </Text>
             </View>
-          </Pressable>
+          ))}
         </View>
       </View>
-    </View>
+    </KeyboardAvoidingView>
   );
 };
 
@@ -181,7 +239,7 @@ const styles = StyleSheet.create({
   },
   btnActions: {
     flexDirection: "row",
-    marginLeft: 100,
+    marginLeft: 20,
     marginTop: 20,
   },
   btn1: {
@@ -190,6 +248,26 @@ const styles = StyleSheet.create({
     width: 130,
     borderRadius: 10,
     justifyContent: "center",
+  },
+  listDisplay: {
+    alignSelf: "center",
+    borderWidth: 2,
+    width: 350,
+    height: "auto",
+    borderBottomRightRadius: 20,
+    borderTopLeftRadius: 20,
+    borderColor: "orange",
+    padding: 10,
+    marginTop: 20,
+    overflow:'scroll'
+  },
+  listDisplayModel: {
+    flexDirection: "row",
+    gap: 17,
+    marginTop: 5,
+  },
+  textInListStyling: {
+    fontSize: 17,
   },
 });
 
