@@ -17,7 +17,6 @@
     "ios": {
       "supportsTablet": true
     },
-    
     "android": {
       "versionCode": 2,
       "adaptiveIcon": {
@@ -37,6 +36,12 @@
     "fonts": [
       "./assets/fonts/Inter-Black.ttf"
     ],
-    "owner": "yassinos"
+    "owner": "yassinos",
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/e3e8e35d-8140-4d63-9c84-8a575b9d3bc9"
+    }
   }
 }
