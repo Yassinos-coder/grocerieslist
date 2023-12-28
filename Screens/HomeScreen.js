@@ -29,24 +29,6 @@ const HomeScreen = () => {
           <Text style={styles.textButtonStyling}>Create List</Text>
         </View>
       </Pressable>
-      <Pressable
-        style={({ pressed }) => [styles.pressable, pressed && { opacity: 0.5 }]}
-        onPress={() => handleNavigation("Grocery List")}
-      >
-        <View style={styles.buttonStyling}>
-          <Entypo name="shopping-cart" size={20} color="black" />
-          <Text style={styles.textButtonStyling}>Grocery List</Text>
-        </View>
-      </Pressable>
-      <Pressable
-        style={({ pressed }) => [styles.pressable, pressed && { opacity: 0.5 }]}
-        onPress={() => handleNavigation("History List")}
-      >
-        <View style={styles.buttonStyling}>
-          <FontAwesome name="th-list" size={20} color="black" />
-          <Text style={styles.textButtonStyling}>History List</Text>
-        </View>
-      </Pressable>
       <FooterComponent />
     </View>
   );

@@ -37,26 +37,6 @@ export default function App() {
               ),
             }}
           />
-          <Drawer.Screen
-            name="Grocery List"
-            component={HomeScreen}
-            options={{
-              drawerLabel: "Grocery List",
-              drawerIcon: ({ focused, color, size }) => (
-                <Feather name="list" size={size} color={color} />
-              ),
-            }}
-          />
-          <Drawer.Screen
-            name="History List"
-            component={HomeScreen}
-            options={{
-              drawerLabel: "History List",
-              drawerIcon: ({ focused, color, size }) => (
-                <Feather name="clock" size={size} color={color} />
-              ),
-            }}
-          />
         </Drawer.Navigator>
       </NavigationContainer>
     </Provider>

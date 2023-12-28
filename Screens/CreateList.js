@@ -8,6 +8,7 @@ import {
   Alert,
   KeyboardAvoidingView,
   Platform,
+  ScrollView,
 } from "react-native";
 import ItemObject from "../Modals/ItemObject";
 import { useNavigation } from "@react-navigation/native";
@@ -35,118 +36,114 @@ const CreateList = () => {
   };
 
   return (
-    <KeyboardAvoidingView  style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-      <View style={styles.container}>
-        <View style={styles.ScreenTitle}>
-          <Text style={styles.textInScreenTitle}>
-            Fill in the inputs below.
-          </Text>
+    <View style={styles.container}>
+      <View style={styles.ScreenTitle}>
+        <Text style={styles.textInScreenTitle}>Fill in the inputs below.</Text>
+      </View>
+      <View style={styles.ListCreation}>
+        <View style={styles.TextInputsView}>
+          <TextInput
+            style={[styles.textInputs, { width: 250 }]}
+            placeholder="Name of product"
+            value={newItem.product}
+            returnKeyType="next"
+            onChangeText={(text) => setNewItem({ ...newItem, product: text })}
+          />
+          <TextInput
+            style={styles.textInputs2}
+            placeholder={`Qty in ${qtyType}`}
+            value={newItem.qty}
+            keyboardType="number-pad"
+            returnKeyType="done"
+            onChangeText={(text) =>
+              setNewItem({ ...newItem, qty: text, qtyType: qtyType })
+            }
+          />
         </View>
-        <View style={styles.ListCreation}>
-          <View style={styles.TextInputsView}>
-            <TextInput
-              style={[styles.textInputs, { width: 250 }]}
-              placeholder="Name of product"
-              value={newItem.product}
-              returnKeyType="next"
-              onChangeText={(text) => setNewItem({ ...newItem, product: text })}
-            />
-            <TextInput
-              style={styles.textInputs2}
-              placeholder={`Qty in ${qtyType}`}
-              value={newItem.qty}
-              keyboardType="number-pad"
-              returnKeyType="done"
-              onChangeText={(text) =>
-                setNewItem({ ...newItem, qty: text, qtyType: qtyType })
-              }
-            />
-          </View>
-          <View style={styles.PressablesView}>
-            <Pressable
-              onPress={() => setQtyType("KG")}
-              style={({ pressed }) => [
-                styles.pressable,
-                pressed && { opacity: 0.5 },
-              ]}
-            >
-              <View style={styles.kilograms}>
-                <Text
-                  style={[
-                    styles.pressableTexts,
-                    qtyType === "KG"
-                      ? { backgroundColor: "orange", borderRadius: 5 }
-                      : {},
-                    { textAlign: "center" },
-                  ]}
-                >
-                  KG
-                </Text>
-              </View>
-            </Pressable>
-            <Pressable
-              onPress={() => setQtyType("G")}
-              style={({ pressed }) => [
-                styles.pressable,
-                pressed && { opacity: 0.5 },
-              ]}
-            >
-              <View style={styles.grams}>
-                <Text
-                  style={[
-                    styles.pressableTexts,
-                    qtyType === "G"
-                      ? { backgroundColor: "orange", borderRadius: 5 }
-                      : {},
-                    { textAlign: "center" },
-                  ]}
-                >
-                  G
-                </Text>
-              </View>
-            </Pressable>
-          </View>
-          <View style={styles.btnActions}>
-            <Pressable
-              onPress={addItemToList}
-              style={({ pressed }) => [
-                styles.pressable,
-                pressed && { opacity: 0.5 },
-              ]}
-            >
-              <View style={styles.btn1}>
-                <Text style={{ textAlign: "center", fontSize: 17 }}>
-                  Add Item to list
-                </Text>
-              </View>
-            </Pressable>
-            <Pressable
-              onPress={() => {
-                setNewItem(new ItemObject());
-                dispatch(ClearShoppingList());
-              }}
-              style={({ pressed }) => [
-                styles.pressable,
-                pressed && { opacity: 0.5 },
-              ]}
-            >
-              <View
+        <View style={styles.PressablesView}>
+          <Pressable
+            onPress={() => setQtyType("KG")}
+            style={({ pressed }) => [
+              styles.pressable,
+              pressed && { opacity: 0.5 },
+            ]}
+          >
+            <View style={styles.kilograms}>
+              <Text
                 style={[
-                  styles.btn1,
-                  { backgroundColor: "#ff6666", marginLeft: 20 },
+                  styles.pressableTexts,
+                  qtyType === "KG"
+                    ? { backgroundColor: "orange", borderRadius: 5 }
+                    : {},
+                  { textAlign: "center" },
                 ]}
               >
-                <Text style={{ textAlign: "center", fontSize: 17 }}>
-                  Restart List
-                </Text>
-              </View>
-            </Pressable>
-          </View>
+                KG
+              </Text>
+            </View>
+          </Pressable>
+          <Pressable
+            onPress={() => setQtyType("G")}
+            style={({ pressed }) => [
+              styles.pressable,
+              pressed && { opacity: 0.5 },
+            ]}
+          >
+            <View style={styles.grams}>
+              <Text
+                style={[
+                  styles.pressableTexts,
+                  qtyType === "G"
+                    ? { backgroundColor: "orange", borderRadius: 5 }
+                    : {},
+                  { textAlign: "center" },
+                ]}
+              >
+                G
+              </Text>
+            </View>
+          </Pressable>
         </View>
-        <View style={styles.listDisplay}>
-          <Text style={{ color: "grey", textAlign: "center" }}>
-            List Display
-          </Text>
+        <View style={styles.btnActions}>
+          <Pressable
+            onPress={addItemToList}
+            style={({ pressed }) => [
+              styles.pressable,
+              pressed && { opacity: 0.5 },
+            ]}
+          >
+            <View style={styles.btn1}>
+              <Text style={{ textAlign: "center", fontSize: 17 }}>
+                Add Item to list
+              </Text>
+            </View>
+          </Pressable>
+          <Pressable
+            onPress={() => {
+              setNewItem(new ItemObject());
+              dispatch(ClearShoppingList());
+            }}
+            style={({ pressed }) => [
+              styles.pressable,
+              pressed && { opacity: 0.5 },
+            ]}
+          >
+            <View
+              style={[
+                styles.btn1,
+                { backgroundColor: "#ff6666", marginLeft: 20 },
+              ]}
+            >
+              <Text style={{ textAlign: "center", fontSize: 17 }}>
+                Restart List
+              </Text>
+            </View>
+          </Pressable>
+        </View>
+      </View>
+      <View style={styles.listDisplay}>
+        <Text style={{ color: "grey", textAlign: "center" }}>List Display</Text>
+        <ScrollView contentContainerStyle={styles.scrollViewContent}>
           {shoppingList.map((item, index) => (
             <View key={index} style={styles.listDisplayModel}>
               <Text style={styles.textInListStyling}>● {index + 1} </Text>
@@ -160,9 +157,9 @@ const CreateList = () => {
               </Text>
             </View>
           ))}
-        </View>
+        </ScrollView>
       </View>
-    </KeyboardAvoidingView>
+    </View>
   );
 };
 
@@ -253,13 +250,12 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     borderWidth: 2,
     width: 350,
-    height: "auto",
+    height: 400,
     borderBottomRightRadius: 20,
     borderTopLeftRadius: 20,
     borderColor: "orange",
     padding: 10,
     marginTop: 20,
-    overflow:'scroll'
   },
   listDisplayModel: {
     flexDirection: "row",
@@ -269,6 +265,7 @@ const styles = StyleSheet.create({
   textInListStyling: {
     fontSize: 17,
   },
+  GoListDisplay: {},
 });
 
 export default CreateList;
